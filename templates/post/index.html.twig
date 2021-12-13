@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LiveBlog{% endblock %}
+
+{% block body %}
+    {% for post in posts %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.name }}</h5>
+                <p class="card-text">{{ post.description | striptags | slice(0,100) ~ '...' }}</p>
+                <a href="{{ path('post_show', {'id': post.id}) }}" class="btn btn-primary">Читать</a>
+            </div>
+            <div class="card-footer">
+                <div class="text-muted">{{ post.user }}</div>
+                <div class="text-muted">{{ post.date ? post.date | date('d-m-Y') : '' }}</div>
+                <div class="text-muted">Просмотры: {{ post.views }}</div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

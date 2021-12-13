@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Запись блога{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ post.name }}</h5>
+            <p class="card-text">{{ post.description | striptags}}</p>
+        </div>
+        <div class="card-footer">
+            <div class="text-muted">{{ post.date ? post.date | date('d-m-Y') : '' }}</div>
+            <div class="text-muted">Просмотры: {{ post.views }}</div>
+        </div>
+    </div>
+    <h2>Ответы<h2>
+    {% for comment in post.comments %}
+        <div class="card">
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>{{ comment.text | striptags }}</p>
+                    <footer class="blockquote-footer">
+                        {{ comment.user }}
+                        {{ comment.date ? comment.date|date('d-m-Y') : '' }}
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if is_granted('ROLE_USER') %}
+        <h2>Добавить комментарий</h2>
+        {{ form(comment_form) }}
+    {% endif %}
+{% endblock %}
